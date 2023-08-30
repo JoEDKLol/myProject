@@ -1,0 +1,119 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+
+    <title>signIn</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/signIn.css"> <!--  -->
+    
+
+
+</head>
+<body class="">
+  <div id="container">
+    
+    
+    
+    <!-- login Box -->
+    <div class="login-box">
+        <div id="loginBoxTitle">JDL HOME</div>
+
+        <!--<form id="signIn" action="/signInAction" method="post">-->
+        <form id="signIn">
+            <div class="form-group">
+                <label>Id</label>
+                <input type="text" name="userId" id="userId" class="form-control" value="" style="ime-mode:disabled" >
+                <div id="signInError">Sorry, your Sign in wasn't successful.</div>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" id="password" class="form-control" value="" autocomplete="off">
+            </div>
+        </form>
+
+        <div id="login-btn-box">
+            <button type="button" id="btnLogin" class="btn btn-outline-danger" onclick="signInCheck()">Sign in</button>
+        </div>
+        <div id="signUpOrForgetPW">
+            <a href="/signUp">Sign Up</a> / <a href="/test">Forgot your password</a>
+        </div>
+    </div>
+
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script th:inline="javascript">
+
+    function signInCheck()
+    {
+        const userId=$('#userId');
+        const password=$('#password');
+
+
+        if(userId.val().length === 0){
+          alert("Enter your ID.");
+        }else if(password.val().length === 0){
+          alert("Enter your password.");
+        }
+
+        //signAction();
+        ajaxSignUpAction();
+
+    }
+
+    function ajaxSignUpAction()
+    {
+        const token = $("meta[name='_csrf']").attr("content")
+        const header = $("meta[name='_csrf_header']").attr("content");
+        const name = $("#userName").val();
+
+        var signIn = $("#signIn").serialize() ;
+        $.ajax({
+            url : '/signInAction',
+            data : signIn,
+            type : 'POST',
+            beforeSend: function( xhr ) {
+                 xhr.setRequestHeader(header, token);
+            }
+        }).done(function (data) {
+            let = dataOj = JSON.parse(data);
+            if(dataOj.code == "200"){
+                // 정상 처리 된 경우
+                //window.location = response.item.url;	//이전페이지로 돌아가기
+            } else {
+                alert(dataOj.message);
+            }
+        }).fail(function (res) {
+            alert(res.responseText);
+            alert(JSON.stringify(res));
+            //alert(data);
+            //alert(error);
+
+
+        })
+        ;
+
+    }
+
+
+
+    function signAction()
+    {
+        const signIn=$('#signIn');
+        signIn.submit();
+      }
+
+
+
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+</body>
+</html>

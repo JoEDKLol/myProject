@@ -1,0 +1,234 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+
+
+    <title>signUp</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/signUp.css"> <!--  -->
+    
+
+
+</head>
+<body class="">
+  <div id="container">
+    
+    
+    
+    <!-- Box -->
+    <div class="login-box">
+        <div>Sing up</div>
+
+        <form id="signUp">
+            <div class="form-group">
+                <label for="userId">Id</label><span id="userIdMsg" th:text="${userIdMsg}" class="validText"></span>
+                <input type="text" oninput="checkData(this.value, this.id)" name="userId" id="userId" class="form-control" value="" style="ime-mode:disabled" autocomplete="off">
+
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label><span id="emailMsg" th:text="${emailMsg}" class="validText"></span>
+                <input type="text" oninput="checkData(this.value, this.id)" name="email" id="email" class="form-control" value="" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label><span id="nameMsg" th:text="${nameMsg}" class="validText"></span>
+                <input type="text" oninput="checkData(this.value, this.id)" name="name" id="name" class="form-control" value="" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="password">password</label><span id="passwordMsg" class="validText"></span>
+                <input type="password" oninput="checkData(this.value, this.id)" name="password" id="password" class="form-control" value="" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="rePassword">Re-enter password</label><span id="rePasswordMsg" class="validText"></span>
+                <input type="password" oninput="checkData(this.value, this.id)" name="rePassword" id="rePassword" class="form-control" value="" autocomplete="off">
+            </div>
+
+        </form>
+        <div id="login-btn-box">
+            <button type="submit" id="btnSignUp" class="btn btn-outline-danger" onclick="signUpCheck()">Sign Up</button>
+        </div>
+
+    </div>
+      <div id="resultDiv">
+          <p th:if="${msg}!=null" th:text="${msg}"></p>
+      </div>
+
+  </div>
+
+<script th:inline="javascript">
+
+    function signUpCheck()
+    {
+        const userId=$('#userId');
+        const email=$('#email');
+        const name=$('#name');
+        const password=$('#password');
+        const rePassword=$('#rePassword');
+
+        const userIdMsg=$('#userIdMsg');
+        const emailMsg=$('#emailMsg');
+        const nameMsg=$('#nameMsg');
+        const passwordMsg=$('#passwordMsg');
+
+        const rePasswordMsg=$('#rePasswordMsg');
+
+        if(userId.val() === ""){
+            userIdMsg.html("Check Id");
+            userId.focus();
+            return;
+        }
+
+
+        if(userId.val().length < 5){
+            userIdMsg.html("Must be at least 5 characters long.");
+            userId.focus();
+            return;
+        }
+
+        if(email.val() === ""){
+            emailMsg.html("Check Email");
+            email.focus();
+            return;
+        }
+
+        if(!emailCheck()){
+            emailMsg.html("It doesn't fit the email format.");
+            email.focus();
+            return;
+        }
+
+        if(name.val() === ""){
+            nameMsg.html("Check name");
+            name.focus();
+            return;
+        }
+
+        if(name.val().length < 4){
+            nameMsg.html("Must be at least 8 characters long.");
+            name.focus();
+            return;
+        }
+
+        if(password.val() === ""){
+            passwordMsg.html("Check password");
+            password.focus();
+            return;
+        }
+        if(rePassword.val() === ""){
+            rePasswordMsg.html("Check Re-enter password");
+            rePassword.focus();
+            return;
+        }
+
+        if(password.val() !== rePassword.val()){
+            passwordMsg.html("Passwords aren't the same.");
+            password.focus();
+            return;
+        }
+        ajaxSignUpAction();
+    }
+
+    function ajaxSignUpAction()
+    {
+
+
+
+        const token = $("meta[name='_csrf']").attr("content")
+        const header = $("meta[name='_csrf_header']").attr("content");
+        const name = $("#userName").val();
+
+        var signUpData = $("#signUp").serialize() ;
+        $.ajax({
+            url : '/signUpAction',
+            data : signUpData,
+            type : 'POST',
+            beforeSend: function( xhr ) {
+                 xhr.setRequestHeader(header, token);
+            }
+        }).done(function (data) {
+            //alert("done: ");
+            location.href="/signIn";
+        }).fail(function (res) {
+            //alert(res.responseText);
+            //alert(JSON.stringify(res));
+
+            if(res.responseText === "USERNAME_DUPLICATED"){
+                //alert("USERNAME_DUPLICATED");
+                const userIdMsg=$('#userIdMsg');
+                const userId = $('#userId');
+                userIdMsg.html("Username Duplicated");
+                userId.focus();
+            }
+        })
+        ;
+
+
+    }
+
+    // function signUpAction()
+    // {
+    //     const signUp=$('#signUp');
+    //     signUp.submit();
+    // }
+
+    function checkData(val, ID){
+        
+        if(ID === "userId"){
+            if(val.length !== 0){
+                $('#userIdMsg').html("");
+            }
+        }
+
+        
+        if(ID === "email"){
+            if(val.length !== 0){
+                $('#emailMsg').html("");
+            }
+        }
+
+        if(ID === "name"){
+            if(val.length !== 0){
+                $('#nameMsg').html("");
+            }
+        }
+
+        if(ID === "password"){
+            if(val.length !== 0){
+                $('#passwordMsg').html("");
+            }
+        }
+
+        if(ID === "password"){
+            if(val.length !== 0){
+                $('#rePasswordMsg').html("");
+            }
+        }
+    }
+
+    function emailCheck(){
+        let retVal = true;
+        const email=$('#email').val();
+        var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+        if(!exptext.test(email)){
+            retVal = false;
+        }
+        return retVal;
+    }
+    
+
+    
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+</body>
+</html>

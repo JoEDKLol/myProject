@@ -1,0 +1,59 @@
+html,
+body {
+  height: 100%;
+}
+
+
+.login-box {
+    margin:150px auto;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 15px;
+    padding:40px 30px;
+    border:2px solid #0e0e0e;width:350px;
+    filter: drop-shadow(0px 0px 10px rgba(0,0,0,.5));
+    
+}
+
+input[type="button"] {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+}
+
+.form-group label {
+    font-size: 0.75rem;
+    margin:2px 0;
+}
+
+#login-btn-box{
+    /*display: flex;*/
+    /*align-items : right;*/
+    text-align: right;
+    justify-content: space-between;
+    margin-top:25px;
+    font-size: 0.75rem;
+}
+
+#btnLogin{
+
+    font-size: 0.75rem;
+}
+#signInError{
+
+    font-size: 0.75rem;
+    color: red;
+    display:none;
+}
+
+#signUpOrForgetPW{
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: gray;
+    text-align: center;
+
+}
+
+.validText{
+    font-size: 0.75rem; 
+    color: red; 
+    margin-left: 20px;
+}
