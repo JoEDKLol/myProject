@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <title>Welcome JDL HOME</title>
+
+    <style>
+    #menuIcon{
+        font-style: normal;
+    }
+    #menu_a:hover{
+        background-color: rgb(145, 34, 34);
+    }
+    .dropdown-menu{
+        background-color: rgb(98, 36, 36);
+    }
+
+</style>
+
+
+</head>
+<body>
+
+
+
+<div id="main_div" class="container pt-5" >
+    <!--main start-->
+    <p class="mt-5 fs-1 fw-bold text-center">board1 2 </p>
+    <div class="table-responsive ">
+        <table class="table table-striped table-hover " style="height: 500px;">
+            <thead>
+            <tr>
+                <th scope="col" style="width: 5%;">no</th>
+                <th scope="col" style="width: 40%; text-align: center;">title</th>
+                <th scope="col" style="width: 15%;">writer</th>
+                <th scope="col" style="width: 15%;">date</th>
+                <th scope="col" style="width: 5%;">views</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td style="overflow: hidden;max-width: 200px;">ThorntonThorntonThortonThorntonThorntonThornton</td>
+                <td style="overflow: hidden;max-width: 60px;">OttoOttoOttoOttoOttoOtto</td>
+                <td style="overflow: hidden;max-width: 60px;">@mdomdomdomdomdo</td>
+                <td style="overflow: hidden;max-width: 60px;">@mdomdomdomdomdomdo</td>
+            </tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+            <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
+
+
+
+            </tbody>
+
+        </table>
+        <div class="">
+            <nav aria-label="Page navigation ">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!--main end-->
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<script th:inline="javascript">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

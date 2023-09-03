@@ -14,11 +14,11 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/")
-    public String mainPage(){
-
-        return "signIn";
-    }
+//    @GetMapping("/")
+//    public String mainPage(){
+//
+//        return "signIn";
+//    }
 
     @GetMapping("/signIn")
     public String signInPage(){

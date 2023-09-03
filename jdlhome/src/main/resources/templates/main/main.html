@@ -1,10 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>main</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <title>Welcome JDL HOME</title>
+
+<style>
+    #menuIcon{
+        font-style: normal;
+    }
+    .dropdown-item:hover{
+        background-color: rgb(145, 34, 34);
+    }
+    .dropdown-menu{
+        background-color: rgb(98, 36, 36);
+    }
+    
+</style>
+
+
 </head>
 <body>
-  Welecome main page!
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: rgb(145, 34, 34);">
+        <div class="container-fluid">
+            <a class="navbar-brand text-light" href="index.html">
+                <img src="../img/logo2.png " class="img-fluid img-thumbnail me-1" alt="">
+                <!-- <i class="bi-house-fill"> Home</i>     -->
+            </a>
+            <div class="ms-auto" style="text-align: right;">
+                <button class="navbar-toggler d-lg-none " type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav me-auto mb-1 ">
+                <!-- <ul class="navbar-nav me-auto mt-2 mt-lg-0"> -->
+                    <li class="nav-item">
+                        <a class="nav-link text-nowrap active" href="index.html">
+                        <!-- <a class="nav-link text-nowrap active" href="#" > -->
+                            <i id="menuIcon" class="bi-house-fill"> Home</i>
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item ">
+                        <a class="nav-link text-nowrap" href="aboutUs.html" >
+                            <i id="menuIcon" class="bi bi-info-lg">About us</i>
+                        </a>
+                    </li> -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-nowrap" href="#" id="dropdownId"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">      
+                            <i id="menuIcon" class="bi bi-list-task font"> board1</i> 
+                        </a>  
+                        <div class="dropdown-menu" aria-labelledby="dropdownId">
+                            <a class="dropdown-item text-white" href="javascript:void(0);"  onclick="pageMovement('/main/board101');">board1 1</a>
+                            <a class="dropdown-item text-white" href="javascript:void(0);"  onclick="pageMovement('/main/board102');">board1 2</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-nowrap" href="#" id="dropdownId"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">      
+                            <i id="menuIcon" class="bi bi-list-task font"> board2</i> 
+                        </a>  
+                        <div class="dropdown-menu" aria-labelledby="dropdownId">
+                            <a id="menu_a" class="dropdown-item text-white" href="product1.html" >board2 1</a>
+                            <a id="menu_a" class="dropdown-item text-white" href="product2.html" >board2 2</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-nowrap" href="#" id="dropdownId"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">      
+                            <i id="menuIcon" class="bi bi-list-task font"> board3</i> 
+                        </a>  
+                        <div class="dropdown-menu" aria-labelledby="dropdownId">
+                            <a id="menu_a" class="dropdown-item text-white" href="product1.html" >board3 1</a>
+                            <a id="menu_a" class="dropdown-item text-white" href="product2.html" >board3 2</a>
+                        </div>
+                    </li>
+                    <!-- <li class="nav-item text-nowrap">
+                        <a class="nav-link" href="contactUs.html">
+                            <i id="menuIcon" class="bi bi-person-vcard-fill me-1"> Contact Us</i>
+                        </a>
+                    </li> -->
+                </ul>
+                <div class="div mb-1">
+                    <a class=" navbar-brand text-light text-nowrap " href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i id="menuIcon" class="bi bi-box-arrow-in-right"> login</i> 
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="main_div" class="container pt-5" >
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+       
+    </div>
+
+
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title w-100 text-center fw-bold fs-1" id="exampleModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                <div class="mb-4">
+                    <i class="bi bi-envelope-fill"></i>
+                    <input type="email" class="form-control" id="recipient-name" required>Your email
+                    <!-- <label for="recipient-name" class="col-form-label">Your email</label> -->
+                </div>
+                <div class="mb-3">
+                    <i class="bi bi-lock-fill"></i>
+                    <input type="password" class="form-control" id="recipient-name" required>Your password
+                    <!-- <label for="message-text" class="col-form-label mt-0">Your password</label> -->
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="div w-100 text-center">
+                    <button type="submit" class="btn btn-outline-light text-black-50" form="loginForm">Login</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        <div class="fixed-bottom " style="background-color: rgb(145, 34, 34);">
+            <div class="div w-100 text-center">
+                <div class="text-center p-3">
+                    <span style="color: rgb(227, 176, 176);">© 2023 Copyright:</span> 
+                    <a class="text-white" href="https://github.com/JoEDKLol/bootcamp/tree/main/Exercise-9/">https://github.com/JoEDKLol</a>
+                  </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+<script th:inline="javascript">
+
+
+
+    function pageMovement(url){
+
+        //const bUrl = url.split("/");
+        //const mUrl = bUrl[bUrl.length-1]+".html";
+         //alert(mUrl+" #main_div");
+         //$("#main_div").remove();
+        //$('#main_div').load(mUrl+" #main_div");
+        //$('#main_div').append("<p>test<p>");
+        ajaxSignUpAction(url);
+
+
+    }
+
+    function ajaxSignUpAction(url){
+
+        const token = $("meta[name='_csrf']").attr("content")
+        const header = $("meta[name='_csrf_header']").attr("content");
+        const name = $("#userName").val();
+
+        $.ajax({
+            url : url,
+            async : true,
+            type : 'GET',
+            dataType : "html",
+            cache : false,
+            beforeSend: function( xhr ) {
+                 xhr.setRequestHeader(header, token);
+            }
+        }).done(function (data) {
+
+            var bodyData = data.substring(data.indexOf('<!--main start-->'),data.indexOf('<!--main end-->')) + ' '
+            //+ data.substring(data.indexOf('<!--script start-->'),data.indexOf('<!--script end-->'))
+            ;
+            //alert(bodyData);
+            $('#main_div').html(bodyData);
+
+
+
+        }).fail(function (res) {
+
+        })
+        ;
+    }
+
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
