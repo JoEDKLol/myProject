@@ -44,29 +44,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td style="overflow: hidden;max-width: 200px;">ThorntonThorntonThortonThorntonThorntonThornton</td>
-                    <td style="overflow: hidden;max-width: 60px;">OttoOttoOttoOttoOttoOtto</td>
-                    <td style="overflow: hidden;max-width: 60px;">@mdomdomdomdomdo</td>
-                    <td style="overflow: hidden;max-width: 60px;">@mdomdomdomdomdomdo</td>
+                  <tr th:each="list:${list}">
+                    <th scope="row" th:text="${list.no}">1</th>
+                    <td style="overflow: hidden;max-width: 200px;" th:text="${list.title}"></td>
+                    <td style="overflow: hidden;max-width: 60px;" th:text="${list.name}"></td>
+                    <td style="overflow: hidden;max-width: 60px;" th:text="${list.reg_date}"></td>
+                    <td style="overflow: hidden;max-width: 60px;" th:text="${list.viewCnt}"></td>
                   </tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td><td>@mdo</td></tr>
-                  
-                  
-                
                 </tbody>
                 
               </table>
+
               <div class="">
                 <nav aria-label="Page navigation ">
                     <ul class="pagination justify-content-center">
@@ -79,6 +67,10 @@
                   </nav>
               </div>
         </div>
+
+
+        <input type="hidden" id="currentPage" name="currentPage">
+
         <!--main end-->
 
        

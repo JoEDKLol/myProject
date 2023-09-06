@@ -24,6 +24,12 @@ public class MainController {
         return "/main/board102";
     }
 
+    @GetMapping("/navigator")
+    public String pageNavigator(String page){
+        return page;
+    }
+
+
 
 
 

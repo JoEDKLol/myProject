@@ -98,22 +98,61 @@
     </nav>
     
     <div id="main_div" class="container pt-5" >
+        <div class="row mt-5">
+            <div class="col-md-4 col-sm-6" >
+                미니게시판 (board1)
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A list item
+                        <span class="badge bg-primary rounded-pill">14</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A second list item
+                        <span class="badge bg-primary rounded-pill">2</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A third list item
+                        <span class="badge bg-primary rounded-pill">1</span>
+                    </li>
+                </ul>
 
-
-
-
-
-
-
-
-
-
-
-
-
+            </div>
+            <div class="col-md-4 col-sm-6" >
+                미니게시판 (board2)   
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A list item
+                        <span class="badge bg-primary rounded-pill">14</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A second list item
+                        <span class="badge bg-primary rounded-pill">2</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A third list item
+                        <span class="badge bg-primary rounded-pill">1</span>
+                    </li>
+                </ul> 
+            </div>
+            <div class="col-md-4 col-sm-6 " >
+                미니게시판 (board3) 
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A list item
+                        <span class="badge bg-primary rounded-pill">14</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A second list item
+                        <span class="badge bg-primary rounded-pill">2</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        A third list item
+                        <span class="badge bg-primary rounded-pill">1</span>
+                    </li>
+                </ul> 
+            </div>
+        </div>
         
-
-       
     </div>
 
 
@@ -187,9 +226,11 @@
         const header = $("meta[name='_csrf_header']").attr("content");
         const name = $("#userName").val();
 
+
+        let commentBean = {page:url};
         $.ajax({
-            url : url,
-            async : true,
+            url : "/navigator",
+            data : commentBean,
             type : 'GET',
             dataType : "html",
             cache : false,
@@ -203,13 +244,53 @@
             ;
             //alert(bodyData);
             $('#main_div').html(bodyData);
-
+            boardSearch(url);
 
 
         }).fail(function (res) {
 
         })
         ;
+    }
+
+    function boardSearch(url){
+
+        let currentPage = $("#currentPage").val();
+        if(currentPage === "" || !currentPage){
+            currentPage = 1;
+        }
+
+        //alert("게시판조회:" + url);
+        const token = $("meta[name='_csrf']").attr("content")
+        const header = $("meta[name='_csrf_header']").attr("content");
+        const name = $("#userName").val();
+
+        const bUrl = url.split("/");
+        const commentBean = {
+                    boardNm:bUrl.pop(),
+                    page:url,
+                    currentPage:currentPage
+                    };
+
+        $.ajax({
+            url : "/boardSearchList",
+            data : commentBean,
+            type : 'GET',
+            //dataType : "json",
+            beforeSend: function( xhr ) {
+                 xhr.setRequestHeader(header, token);
+            }
+        }).done(function (data) {
+
+           // alert(data);
+             $('#main_div').replaceWith(data);
+
+
+        }).fail(function (res, error) {
+            //alert(JSON.stringify(error));
+        })
+        ;
+
     }
 
 

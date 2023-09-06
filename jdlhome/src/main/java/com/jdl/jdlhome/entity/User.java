@@ -22,6 +22,7 @@ public class User extends Common  {
     private Long id;
     @Column (name = "user_id")
     private String userId;
+
     private String password;
     private String name;
     private String email;
