@@ -20,5 +20,6 @@ public class Board01WriterDto extends Common {
     private Long viewCnt;
     private String delYn;
     private String name;
+    private Long totCnt;
 
 }

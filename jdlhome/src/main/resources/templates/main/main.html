@@ -158,43 +158,43 @@
 
 
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title w-100 text-center fw-bold fs-1" id="exampleModalLabel">Login</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="loginForm">
-                <div class="mb-4">
-                    <i class="bi bi-envelope-fill"></i>
-                    <input type="email" class="form-control" id="recipient-name" required>Your email
-                    <!-- <label for="recipient-name" class="col-form-label">Your email</label> -->
-                </div>
-                <div class="mb-3">
-                    <i class="bi bi-lock-fill"></i>
-                    <input type="password" class="form-control" id="recipient-name" required>Your password
-                    <!-- <label for="message-text" class="col-form-label mt-0">Your password</label> -->
-                </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="div w-100 text-center">
-                    <button type="submit" class="btn btn-outline-light text-black-50" form="loginForm">Login</button>
-                </div>
-            </div>
-            </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title w-100 text-center fw-bold fs-1" id="exampleModalLabel">Login</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+            <form id="loginForm">
+            <div class="mb-4">
+                <i class="bi bi-envelope-fill"></i>
+                <input type="email" class="form-control" id="recipient-name" required>Your email
+                <!-- <label for="recipient-name" class="col-form-label">Your email</label> -->
+            </div>
+            <div class="mb-3">
+                <i class="bi bi-lock-fill"></i>
+                <input type="password" class="form-control" id="recipient-name" required>Your password
+                <!-- <label for="message-text" class="col-form-label mt-0">Your password</label> -->
+            </div>
+            </form>
         </div>
-        <div class="fixed-bottom " style="background-color: rgb(145, 34, 34);">
+        <div class="modal-footer">
             <div class="div w-100 text-center">
-                <div class="text-center p-3">
-                    <span style="color: rgb(227, 176, 176);">© 2023 Copyright:</span> 
-                    <a class="text-white" href="https://github.com/JoEDKLol/bootcamp/tree/main/Exercise-9/">https://github.com/JoEDKLol</a>
-                  </div>
+                <button type="submit" class="btn btn-outline-light text-black-50" form="loginForm">Login</button>
             </div>
         </div>
-
+        </div>
+    </div>
+    </div>
+    <div class="fixed-bottom " style="background-color: rgb(145, 34, 34);">
+        <div class="div w-100 text-center">
+            <div class="text-center p-3">
+                <span style="color: rgb(227, 176, 176);">© 2023 Copyright:</span>
+                <a class="text-white" href="https://github.com/JoEDKLol/bootcamp/tree/main/Exercise-9/">https://github.com/JoEDKLol</a>
+              </div>
+        </div>
+    </div>
+    <input type="hidden" id="currentUrl" name="currentUrl">
 
 
 
@@ -209,15 +209,8 @@
 
     function pageMovement(url){
 
-        //const bUrl = url.split("/");
-        //const mUrl = bUrl[bUrl.length-1]+".html";
-         //alert(mUrl+" #main_div");
-         //$("#main_div").remove();
-        //$('#main_div').load(mUrl+" #main_div");
-        //$('#main_div').append("<p>test<p>");
+        $("#currentUrl").val(url);
         ajaxSignUpAction(url);
-
-
     }
 
     function ajaxSignUpAction(url){
@@ -260,7 +253,6 @@
             currentPage = 1;
         }
 
-        //alert("게시판조회:" + url);
         const token = $("meta[name='_csrf']").attr("content")
         const header = $("meta[name='_csrf_header']").attr("content");
         const name = $("#userName").val();
@@ -283,7 +275,18 @@
         }).done(function (data) {
 
            // alert(data);
-             $('#main_div').replaceWith(data);
+           $('#main_div').replaceWith(data);
+           let currentPageAtag = $("#currentPage").val();
+
+           if(currentPageAtag % 5 == 0 ){
+                currentPageAtag = 5;
+           }else{
+                currentPageAtag = currentPageAtag % 5;
+           }
+
+
+           let tagCurrentPage = 'a:eq(' + currentPageAtag + ')';
+           $('#ulNavPage').find(tagCurrentPage).addClass('text-danger');
 
 
         }).fail(function (res, error) {
@@ -293,6 +296,51 @@
 
     }
 
+    function paging(curnPage){
+        let url = $("#currentUrl").val();
+        $("#currentPage").val(curnPage);
+
+        //alert($("#currentPage").val());
+        boardSearch(url)
+    }
+
+    function previous(){
+        let currentPage = $("#currentPage").val();
+
+        currentPage = Number(currentPage) - 1;
+
+        if(currentPage < 1){
+            currentPage = 1;
+        }
+
+        let url = $("#currentUrl").val();
+        $("#currentPage").val(currentPage);
+        boardSearch(url);
+
+
+    }
+
+    function next(){
+        let currentPage = $("#currentPage").val();
+        let totPageCnt = $("#totPageCnt").val();
+
+        currentPage = Number(currentPage) + 1;
+
+        if(currentPage > totPageCnt){
+
+            currentPage = totPageCnt;
+        }
+
+        let url = $("#currentUrl").val();
+        $("#currentPage").val(currentPage);
+
+
+        boardSearch(url);
+    }
+
+    function write(url){
+
+    }
 
 
 

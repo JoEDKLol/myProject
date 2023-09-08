@@ -11,7 +11,7 @@ import java.util.List;
 public interface Board01Repository extends JpaRepository<Board01, Long> {
     @Query(
             //value = "select a.* ,b.name from board01 a inner join user b where a.id = b.id order by a.no desc"
-            value = "select a.*, b.name from board01 a inner join user b where a.id = b.id order by a.no desc limit ?1 offset ?2"
+            value = "select a.*, b.name, Count(*) OVER() as tot_cnt from board01 a inner join user b where a.id = b.id order by a.no desc limit ?1 offset ?2"
             , nativeQuery = true
     )
     //List<Board01> getBoard01Writer();
