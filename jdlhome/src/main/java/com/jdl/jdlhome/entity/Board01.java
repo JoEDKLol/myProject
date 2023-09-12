@@ -13,7 +13,7 @@ public class Board01 extends Common {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
-
+    private String user_id;
     private String title;
     private String content;
     @Column(name = "good_cnt")
@@ -23,8 +23,8 @@ public class Board01 extends Common {
     @Column (name = "del_yn")
     private String delYn;
 
-    @ManyToOne
-    @JoinColumn(name="id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name="user_id")
+//    private User user;
 
 }

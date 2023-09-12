@@ -45,6 +45,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequests) -> {
                     //authorizeRequests.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll(); //정적자원허용
                     authorizeRequests.requestMatchers("/user/**").authenticated();
+                    //authorizeRequests.requestMatchers("/write").authenticated();
+                    //authorizeRequests.requestMatchers("/writeAction").authenticated();
                     //authorizeRequests.requestMatchers("/auth_test").hasRole("ADMIN");
 
                     authorizeRequests.requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER");

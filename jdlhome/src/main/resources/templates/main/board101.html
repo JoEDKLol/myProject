@@ -37,7 +37,7 @@
 
         <p class="mt-5 fs-1 fw-bold text-center">board1 1 </p>
         <div>
-            <button type="button" class="btn btn-outline-danger btn-sm" style="font-size:12px">글쓰기</button>
+            <button type="button" class="btn btn-outline-danger btn-sm" style="font-size:12px" onclick="writePage('/write')">글쓰기</button>
         </div>
 
         <div class="table-responsive ">
@@ -55,7 +55,7 @@
                   <tr  th:each="boardlist:${list}">
                     <td th:text="${boardlist.no}"></td>
                     <td style="overflow: hidden;max-width: 200px;" th:text="${boardlist.title}"></td>
-                    <td style="overflow: hidden;max-width: 60px;" th:text="${boardlist.name}"></td>
+                    <td style="overflow: hidden;max-width: 60px;" th:text="${boardlist.user_id}"></td>
                     <td style="overflow: hidden;max-width: 60px;" th:text="${boardlist.reg_date}"></td>
                     <td style="overflow: hidden;max-width: 60px; text-align:right " th:text="${boardlist.viewCnt}"></td>
                   </tr>
