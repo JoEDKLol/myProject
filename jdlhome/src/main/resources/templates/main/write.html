@@ -48,6 +48,23 @@
         $('#summernote').summernote('code', document.getElementById('temp').innerHTML)
     }
 
+    let fileList = [];
+    //when the picfiles change check fileList
+    function checkFileList(u, url){
+        if(u == "upload"){
+            fileList.push(url);
+        }else{
+
+            for(let i=0; i<fileList.length; i++){
+                if(fileList[i] === url){
+                    fileList.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+    }
+
+
     $(document).ready(function () {
         $('#summernote').summernote({
             // 썸머노트 옵션 설정
@@ -145,7 +162,9 @@
                     function ($image) {
                         $image.attr('alt', caption) // 캡션 정보를 이미지의 alt 속성에 설정
                     }
-                )
+                );
+
+                checkFileList("upload", data.url);
             },
         })
     }
@@ -169,6 +188,9 @@
             processData: false,
             beforeSend : function(xhr){
                 xhr.setRequestHeader(header, token);
+            },success: function (data) {
+                alert(data.url);
+                checkFileList("delete", data.url);
             },
         })
     }
@@ -184,6 +206,7 @@
 
         const data = {content:content
                         , title:title
+                        , fileList:fileList
         }
         $.ajax({
             url : '/writeAction',

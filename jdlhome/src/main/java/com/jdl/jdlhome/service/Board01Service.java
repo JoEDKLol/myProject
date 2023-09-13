@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +45,19 @@ public class Board01Service {
         board01.setUp_id(userDetails.getUsername());
 
         return board01Repository.save(board01).getNo();
+    }
+
+    @Transactional  //db 트랜잭션 자동으로 commit 해줌
+    public void borardUpdate(Board01WriterDto board01WriterDto, Long no) {
+        //dto 를 entity 화 해서 repository 의 save 메소드를 통해 db 에 저장.
+        Optional<Board01> board01 = board01Repository.findById(no);
+        board01.ifPresent(
+                board -> {
+                    board.setContent(board01WriterDto.getContent());
+                }
+        );
+        //System.out.println(board01.get());
+
     }
 
 

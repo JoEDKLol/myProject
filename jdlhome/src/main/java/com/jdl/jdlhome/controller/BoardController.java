@@ -2,15 +2,11 @@ package com.jdl.jdlhome.controller;
 
 import com.google.gson.JsonObject;
 import com.jdl.jdlhome.dto.Board01WriterDto;
-import com.jdl.jdlhome.entity.Board01;
 import com.jdl.jdlhome.service.Board01Service;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
-//import org.json.simple.JSONObject;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -94,12 +90,12 @@ public class BoardController {
         System.out.println("totPageCnt::" + totPageCnt);
         //currentPage = 12;
         Long startPage = (long) Math.floorDiv(currentPage,5)*5+1;
-        System.out.println("startPage111::" + startPage);
+        //System.out.println("startPage111::" + startPage);
 
-        System.out.println("Math.floorDiv(currentPage,5)::" + Math.floorDiv(currentPage,5));
+        //System.out.println("Math.floorDiv(currentPage,5)::" + Math.floorDiv(currentPage,5));
 
         if(currentPage%5 == 0 && currentPage >= 5){
-            System.out.println("여기 온다고");
+            //System.out.println("여기 온다고");
             startPage = startPage = (long) (Math.floorDiv(currentPage,5)-1)*5+1;
         }
 
@@ -108,9 +104,9 @@ public class BoardController {
             lastPage = totPageCnt;
         }
 
-        System.out.println("currentPage::" + currentPage);
-        System.out.println("startPage::" + startPage);
-        System.out.println("lastPage::" + lastPage);
+//        System.out.println("currentPage::" + currentPage);
+//        System.out.println("startPage::" + startPage);
+//        System.out.println("lastPage::" + lastPage);
         List<Long> pageList = new ArrayList<>();
         for(Long i = startPage; i<=lastPage; i++){
             System.out.println(i);
@@ -143,15 +139,27 @@ public class BoardController {
     }
 
     @PostMapping("/writeAction")
-    public String writeAction(Board01WriterDto board01WriterDto, Authentication authentication){
+    public String writeAction(Board01WriterDto board01WriterDto,
+                              @RequestParam(value="fileList[]") List<String> fileList,
+                              Authentication authentication){
 
         //UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         //System.out.println(userDetails.getUsername()); //userId - PrincipalDetails class check
-        Long no = board01Service.borardSave(board01WriterDto, authentication);
+        //1차 저장
+        Long no = board01Service.borardSave(board01WriterDto, authentication);;
+
+        //System.out.println(fileList);
+
         //img copy after save DB
         String content = board01WriterDto.getContent();
         content = content.replaceAll("/temp", "/" + no);
+
+
         //no로 업데이트 필요 :  저장 -> 업데이트 및 temp 이미지 삭제 및 이동
+        board01WriterDto.setContent(content);
+        board01Service.borardUpdate(board01WriterDto, no);;
+
+
         //해당게시글의 이미지만 이동
         
         // temp 폴더 안의 이미지를 게시글 저장소로 이동
@@ -159,7 +167,9 @@ public class BoardController {
         String path_folder2 = realPath + "/upload_image/image/fileupload/" + no + "/";
 
         // 폴더 복사 함수
-        fileUpload(path_folder1, path_folder2);
+        fileUpload(path_folder1, path_folder2, fileList);
+
+
 
 
         return "main/write.html";
@@ -216,19 +226,26 @@ public class BoardController {
     // 서머노트 이미지 삭제 temp에서
     @RequestMapping(value = "/deleteSummernoteImageFile", produces = "application/json; charset=utf8")
     @ResponseBody
-    public void deleteSummernoteImageFile(@RequestParam("file") String fileName) {
-
+    public String deleteSummernoteImageFile(@RequestParam("file") String fileName) {
+        JsonObject jsonObject = new JsonObject(); // -> gson
         // 폴더 위치
         String filePath = realPath + "/upload_image/image/fileupload/temp/";
 
         // 해당 파일 삭제
         System.out.println("realPath::"+filePath);
         System.out.println("fileName::"+fileName);
+        jsonObject.addProperty("url", "/upload_image/image/fileupload/temp/" + fileName);
+
+
         deleteFile(filePath, fileName);
+
+        String a = jsonObject.toString();
+        System.out.println("이미지경로"+a);
+        return a;
     }
 
     // 하위 폴더 복사
-    private void fileUpload(String path_folder1, String path_folder2) {
+    private void fileUpload(String path_folder1, String path_folder2, List<String> fileList) {
         // path_folder1에서 path_folder2로 파일을 복사하는 함수입니다.
 
         File folder1;
@@ -242,38 +259,66 @@ public class BoardController {
         if (!folder2.exists())
             folder2.mkdirs();
 
+        for(int i=0; i<fileList.size(); i++){
+
+            String [] arr = fileList.get(i).split("/");
+            System.out.println("fileList.get(i)" + arr[arr.length-1]);
+        }
+
+
         // 폴더1에서 파일 목록을 가져옵니다.
         File[] target_file = folder1.listFiles();
         for (File file : target_file) {
             // 복사 대상 파일의 경로와 이름을 설정합니다.
+            //System.out.println("file.getName()::"+file.getName());
+
+
+
             File temp = new File(folder2.getAbsolutePath() + File.separator + file.getName());
 
             if (file.isDirectory()) {
                 // 대상이 폴더인 경우, 해당 폴더를 생성합니다.
                 temp.mkdir();
             } else {
-                FileInputStream fis = null;
-                FileOutputStream fos = null;
-                try {
-                    // 파일 복사를 위해 FileInputStream과 FileOutputStream을 생성합니다.
-                    fis = new FileInputStream(file);
-                    fos = new FileOutputStream(temp);
+                for(int i=0; i<fileList.size(); i++){
 
-                    byte[] b = new byte[4096];
-                    int cnt = 0;
-                    while ((cnt = fis.read(b)) != -1) {
-                        // 버퍼를 사용하여 파일 내용을 읽고 복사합니다.
-                        fos.write(b, 0, cnt);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    // FileInputStream과 FileOutputStream을 닫습니다.
-                    try {
-                        fis.close();
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    String [] arr = fileList.get(i).split("/");
+                    //System.out.println("fileList.get(i)" + arr[arr.length-1]);
+                    if(arr[arr.length-1].equals(file.getName())){
+
+                        System.out.println("파일명 같은 경우 여기 오나?");
+
+                        FileInputStream fis = null;
+                        FileOutputStream fos = null;
+                        try {
+                            // 파일 복사를 위해 FileInputStream과 FileOutputStream을 생성합니다.
+                            fis = new FileInputStream(file);
+                            fos = new FileOutputStream(temp);
+
+                            byte[] b = new byte[4096];
+                            int cnt = 0;
+                            while ((cnt = fis.read(b)) != -1) {
+                                // 버퍼를 사용하여 파일 내용을 읽고 복사합니다.
+                                fos.write(b, 0, cnt);
+                            }
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            // FileInputStream과 FileOutputStream을 닫습니다.
+                            try {
+                                fis.close();
+                                fos.close();
+
+                                //복사된 후 템프 폴더에 파일 삭제
+                                String filePath = realPath + "/upload_image/image/fileupload/temp/";
+                                deleteFile(filePath, file.getName());
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             }
